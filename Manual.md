@@ -82,6 +82,8 @@ Use recommended sizes if you want, apply them, and run again.
 
 Save the shop. Export the printable page when you are ready to buy pipe.
 
+A sample of that page is DcShop-Sample-Report.html. The product page shows a layout picture; the report is a separate HTML file because it is too tall for one screenshot.
+
 A change that cannot be built is refused. The status line says why. Slide wyes and machine names rather than forcing an illegal stick.
 
 What the colors are not
