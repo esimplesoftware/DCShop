@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DCShop — Draw the shop. Check the pipe before you buy it.</title>
+  <meta name="description" content="DCShop is a Windows desktop planner for a small woodshop dust-collection system. Draw the room, the collector, the main, and one branch per machine. The drawing is the calculation.">
+  <meta name="theme-color" content="#1a1814">
+  <meta property="og:title" content="DCShop">
+  <meta property="og:description" content="Draw the shop. Check whether the pipe can carry chips, and whether the collector can pull that air.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="dcshop-256.png" type="image/png">
+  <link rel="apple-touch-icon" href="dcshop-256.png">
+  <style>
+    :root {
+      --bg: #f4efe6;
+      --bg-2: #ebe4d6;
+      --ink: #1a1814;
+      --muted: #5c564c;
+      --line: #d4cbb8;
+      --card: #fffaf2;
+      --accent: #b45309;
+      --accent-ink: #7c2d12;
+      --ok: #3f6b4a;
+      --shadow: 0 12px 40px rgba(26, 24, 20, 0.08);
+      --mono: "Cascadia Mono", "SFMono-Regular", "Consolas", ui-monospace, monospace;
+      --sans: "Segoe UI", "Sora", system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: var(--sans);
+      color: var(--ink);
+      background:
+        radial-gradient(1200px 500px at 10% -10%, #fde8c8 0%, transparent 55%),
+        var(--bg);
+      line-height: 1.55;
+    }
+
+    a { color: var(--accent-ink); }
+    a:hover { color: var(--accent); }
+
+    .wrap {
+      width: min(980px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 0 8px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: inherit;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      font-size: 1.15rem;
+    }
+
+    .mark {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+    .mark img {
+      width: 40px;
+      height: 40px;
+      display: block;
+      border-radius: 8px;
+    }
+    .mark-fallback {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      background: var(--ink);
+      color: #f8f1e5;
+      display: grid;
+      place-items: center;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+    }
+
+    nav { display: flex; gap: 18px; align-items: center; font-size: 0.95rem; }
+    nav a { text-decoration: none; color: var(--muted); }
+    nav a:hover { color: var(--ink); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--ink);
+      color: #f8f1e5 !important;
+      text-decoration: none;
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-weight: 600;
+      border: 1px solid var(--ink);
+    }
+    .btn:hover { background: #2c2822; color: #fff !important; }
+    .btn-ghost {
+      background: transparent;
+      color: var(--ink) !important;
+      border-color: var(--line);
+    }
+    .btn-ghost:hover { background: var(--bg-2); color: var(--ink) !important; }
+    .btn-lg { padding: 13px 20px; font-size: 1.02rem; }
+
+    .hero { padding: 48px 0 28px; }
+    .kicker {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-ink);
+      margin: 0 0 14px;
+    }
+    h1 {
+      font-size: clamp(2.1rem, 5vw, 3.35rem);
+      line-height: 1.08;
+      letter-spacing: -0.04em;
+      margin: 0 0 16px;
+      max-width: 18ch;
+    }
+    .lede {
+      font-size: 1.15rem;
+      color: var(--muted);
+      max-width: 42rem;
+      margin: 0 0 28px;
+    }
+    .cta-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    .fine {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin: 14px 0 0;
+    }
+
+    .shot {
+      margin: 40px 0 0;
+      background: #1e1c18;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      border: 1px solid #2a2722;
+      min-height: 180px;
+    }
+    .shot img {
+      display: block;
+      width: 100%;
+      height: auto;
+      vertical-align: middle;
+    }
+    .shot-placeholder {
+      color: #c4bba8;
+      padding: 48px 24px;
+      font-family: var(--mono);
+      font-size: 0.85rem;
+    }
+
+    section { padding: 28px 0; }
+    h2 {
+      font-size: 1.45rem;
+      letter-spacing: -0.03em;
+      margin: 0 0 8px;
+    }
+    .section-lead { color: var(--muted); margin: 0 0 22px; max-width: 40rem; }
+
+    .grid3, .grid2 {
+      display: grid;
+      gap: 14px;
+    }
+    .grid3 { grid-template-columns: repeat(3, 1fr); }
+    .grid2 { grid-template-columns: repeat(2, 1fr); }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 18px 18px 16px;
+    }
+    .card h3 { margin: 0 0 8px; font-size: 1.02rem; letter-spacing: -0.02em; }
+    .card p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+    .num {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--accent-ink);
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    ul.actions {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      padding: 0;
+      margin: 0;
+    }
+    ul.actions li {
+      list-style: none;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px 12px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 0.92rem;
+    }
+    ul.actions small {
+      display: block;
+      font-weight: 400;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .yes { border-top: 3px solid var(--ok); }
+    .no { border-top: 3px solid #9a3412; }
+    .split ul { margin: 10px 0 0; padding-left: 1.1rem; color: var(--muted); }
+    .split li { margin: 6px 0; }
+
+    details {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 16px;
+      margin: 0 0 10px;
+    }
+    summary { cursor: pointer; font-weight: 650; }
+    details p { margin: 10px 0 4px; color: var(--muted); }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 28px 0 48px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    footer .row {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 800px) {
+      .grid3, .grid2, .split, ul.actions { grid-template-columns: 1fr; }
+      nav .hide-sm { display: none; }
+      h1 { max-width: none; }
+      .shot { margin-top: 28px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <a class="brand" href="#top">
+        <span class="mark" aria-hidden="true">
+          <img src="dcshop-256.png" alt="" width="40" height="40" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'mark-fallback',textContent:'DC'}))">
+        </span>
+        DCShop
+      </a>
+      <nav>
+        <a class="hide-sm" href="#how">How it works</a>
+        <a class="hide-sm" href="#limits">Limits</a>
+        <a class="hide-sm" href="#faq">FAQ</a>
+        <a class="btn" href="mailto:esimplesoftware@gmail.com?subject=DCShop%20license">Buy</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <p class="kicker">Windows shop planner</p>
+        <h1>Draw the shop. Check the pipe before you buy it.</h1>
+        <p class="lede">
+          DCShop is a desktop planner for a small woodshop dust-collection system.
+          Lay the main and one branch per machine, then ask two separate questions:
+          is the air fast enough to carry chips, and can this collector pull that air through this pipe?
+        </p>
+        <div class="cta-row">
+          <a class="btn btn-lg" href="mailto:esimplesoftware@gmail.com?subject=DCShop%20license">Buy DCShop for Windows</a>
+          <a class="btn btn-ghost btn-lg" href="https://github.com/esimplesoftware/dcshop">GitHub</a>
+        </div>
+        <p class="fine">Paid license. The drawing is the calculation. Lengths come from the floor, not a typed box.</p>
+
+        <figure class="shot">
+          <img
+            src="dcshop.png"
+            alt="DCShop showing a shop floor, main, branch, and analysis report"
+            width="1600"
+            height="900"
+            onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'shot-placeholder',textContent:'Add docs/dcshop.png — a screenshot of the floor plus the report.'}))">
+        </figure>
+      </section>
+
+      <section id="how">
+        <h2>How it works</h2>
+        <p class="section-lead">Most layouts are guessed from a chart. DCShop makes the layout visible and checks it before the pipe is bought.</p>
+        <div class="grid3">
+          <article class="card">
+            <span class="num">01</span>
+            <h3>Draw what you can build</h3>
+            <p>Room, collector, main in 90° and 45° sticks, one branch per machine with a gate and flex. Illegal fittings are refused.</p>
+          </article>
+          <article class="card">
+            <span class="num">02</span>
+            <h3>Colors are only velocity</h3>
+            <p>Green, yellow, and red answer whether chips will stay in the airstream. They do not grade the collector.</p>
+          </article>
+          <article class="card">
+            <span class="num">03</span>
+            <h3>The report grades the collector</h3>
+            <p>CFM, FPM, static pressure, equivalent feet, plus fixed cyclone and filter losses, compared to a collector class.</p>
+          </article>
+        </div>
+      </section>
+
+      <section>
+        <h2>On the floor</h2>
+        <p class="section-lead">One pipe size is not treated as the answer for every machine. Stepping the main down is part of the plan.</p>
+        <ul class="actions">
+          <li>Main + wyes<small>legal sticks only</small></li>
+          <li>Branch + flex<small>measured, not guessed</small></li>
+          <li>Size recommend<small>apply and run again</small></li>
+          <li>Printable page<small>floor plus report</small></li>
+        </ul>
+      </section>
+
+      <section id="limits">
+        <h2>What it does and does not do</h2>
+        <p class="section-lead">1.0 plans one open machine at a time from the pipe you drew. That is the whole product.</p>
+        <div class="split">
+          <article class="card yes">
+            <h3>Does</h3>
+            <ul>
+              <li>Use the drawn length, elbows, and flex</li>
+              <li>Keep transport velocity and collector capacity separate</li>
+              <li>Show derated planning curves and a published manufacturer curve as different things</li>
+              <li>Refuse a change that cannot be built</li>
+              <li>Export a full-floor page that zoom does not clip</li>
+            </ul>
+          </article>
+          <article class="card no">
+            <h3>Does not</h3>
+            <ul>
+              <li>Invent lengths you did not draw</li>
+              <li>Treat green as “this collector is enough”</li>
+              <li>Stamp an engineered or NFPA design</li>
+              <li>Analyze every blast gate open at once</li>
+              <li>Upload your shop file (it stays on your PC)</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section id="faq">
+        <h2>Questions</h2>
+        <p class="section-lead">Short answers. The limits are intentional.</p>
+
+        <details open>
+          <summary>Is this a replacement for a manufacturer’s design service?</summary>
+          <p>No. A dealer design is a parts list tied to a purchase. DCShop is the drawing you run before you order pipe from anyone. Use both if you want.</p>
+        </details>
+        <details>
+          <summary>Why are the length boxes read-only?</summary>
+          <p>Because the analysis uses the pipe on the floor. If the number could be typed, the drawing would stop being the calculation.</p>
+        </details>
+        <details>
+          <summary>Can I run two machines at once?</summary>
+          <p>1.0 analyzes one open machine. That is how most one-person shops actually run blast gates.</p>
+        </details>
+        <details>
+          <summary>Is a planning curve the same as a published fan curve?</summary>
+          <p>No. DCShop will not present a derated planning curve as if it were a manufacturer’s published curve.</p>
+        </details>
+        <details>
+          <summary>How do I buy it?</summary>
+          <p>Email esimplesoftware@gmail.com. After payment you get the installer and a license key.</p>
+        </details>
+      </section>
+
+      <section>
+        <h2>Get it</h2>
+        <p class="section-lead">Buy a license, then install the setup you are sent. If SmartScreen is cautious with a new unsigned build, that is Windows being Windows—More info → Run anyway.</p>
+        <div class="cta-row">
+          <a class="btn btn-lg" href="mailto:esimplesoftware@gmail.com?subject=DCShop%20license">Email to buy</a>
+          <a class="btn btn-ghost btn-lg" href="https://github.com/esimplesoftware/dcshop/blob/Master/Manual.md">Read the manual</a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="row">
+        <div>
+          <strong style="color:var(--ink)">DCShop</strong><br>
+          eSimpleSoftware · Jackson, Tennessee<br>
+          <a href="mailto:esimplesoftware@gmail.com">esimplesoftware@gmail.com</a>
+        </div>
+        <div>
+          <a href="https://github.com/esimplesoftware/dcshop">Repository</a> ·
+          <a href="mailto:esimplesoftware@gmail.com?subject=DCShop%20license">Buy</a> ·
+          <a href="https://github.com/esimplesoftware/dcshop/blob/Master/EULA.txt">EULA</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
