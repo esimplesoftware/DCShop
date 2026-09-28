@@ -48,6 +48,8 @@ Save the shop, reopen it, and export a printable page of the floor plus the anal
 
 Green, yellow, and red answer only whether air is fast enough to carry chips. The report answers whether this collector can pull that air through this pipe.
 
+A layout picture is on the product page. A full analysis is the sample report.
+
 Support
 
 Email: esimplesoftware@gmail.com
