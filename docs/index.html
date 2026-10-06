@@ -3,12 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>DCShop — Draw the shop. Check the pipe before you buy it.</title>
-  <meta name="description" content="DCShop is a Windows desktop planner for a small woodshop dust-collection system. Draw the room, the collector, the main, and one branch per machine. The drawing is the calculation.">
+  <title>DCShop 2.0 — Plan your dust collection before you buy the pipe.</title>
+  <meta name="description" content="DCShop is a Windows planner for woodshop dust collection. Draw your shop to scale, place your Tools and collector, run the main, branches and drops, and see how much air every Tool will actually get.">
   <meta name="theme-color" content="#1a1814">
-  <meta property="og:title" content="DCShop">
-  <meta property="og:description" content="Draw the shop. Check whether the pipe can carry chips, and whether the collector can pull that air.">
+  <meta property="og:title" content="DCShop 2.0">
+  <meta property="og:description" content="Lay out your dust collection system on a floor plan and check the airflow at every Tool before you buy any pipe.">
   <meta property="og:type" content="website">
+  <!-- PLACEHOLDER: social preview image, 1200x630 -->
+  <meta property="og:image" content="dcshop-og.png">
   <link rel="icon" href="dcshop-256.png" type="image/png">
   <link rel="apple-touch-icon" href="dcshop-256.png">
   <style>
@@ -42,10 +44,7 @@
     a { color: var(--accent-ink); }
     a:hover { color: var(--accent); }
 
-    .wrap {
-      width: min(980px, calc(100% - 40px));
-      margin: 0 auto;
-    }
+    .wrap { width: min(980px, calc(100% - 40px)); margin: 0 auto; }
 
     header {
       display: flex;
@@ -64,31 +63,22 @@
       letter-spacing: -0.03em;
       font-size: 1.15rem;
     }
-
-    .mark {
-      width: 40px;
-      height: 40px;
-      display: grid;
-      place-items: center;
-      flex-shrink: 0;
-    }
-    .mark img {
-      width: 40px;
-      height: 40px;
-      display: block;
-      border-radius: 8px;
-    }
+    .mark { width: 40px; height: 40px; display: grid; place-items: center; flex-shrink: 0; }
+    .mark img { width: 40px; height: 40px; display: block; border-radius: 8px; }
     .mark-fallback {
-      width: 40px;
-      height: 40px;
-      border-radius: 8px;
-      background: var(--ink);
-      color: #f8f1e5;
-      display: grid;
-      place-items: center;
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: -0.04em;
+      width: 40px; height: 40px; border-radius: 8px;
+      background: var(--ink); color: #f8f1e5;
+      display: grid; place-items: center;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: -0.04em;
+    }
+    .badge {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--accent-ink);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 1px 6px;
     }
 
     nav { display: flex; gap: 18px; align-items: center; font-size: 0.95rem; }
@@ -96,167 +86,78 @@
     nav a:hover { color: var(--ink); }
 
     .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--ink);
-      color: #f8f1e5 !important;
-      text-decoration: none;
-      padding: 10px 16px;
-      border-radius: 10px;
-      font-weight: 600;
-      border: 1px solid var(--ink);
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--ink); color: #f8f1e5 !important;
+      text-decoration: none; padding: 10px 16px; border-radius: 10px;
+      font-weight: 600; border: 1px solid var(--ink);
     }
     .btn:hover { background: #2c2822; color: #fff !important; }
-    .btn-ghost {
-      background: transparent;
-      color: var(--ink) !important;
-      border-color: var(--line);
-    }
+    .btn-ghost { background: transparent; color: var(--ink) !important; border-color: var(--line); }
     .btn-ghost:hover { background: var(--bg-2); color: var(--ink) !important; }
     .btn-lg { padding: 13px 20px; font-size: 1.02rem; }
 
     .hero { padding: 48px 0 28px; }
     .kicker {
-      font-family: var(--mono);
-      font-size: 0.78rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--accent-ink);
-      margin: 0 0 14px;
+      font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--accent-ink); margin: 0 0 14px;
     }
     h1 {
-      font-size: clamp(2.1rem, 5vw, 3.35rem);
-      line-height: 1.08;
-      letter-spacing: -0.04em;
-      margin: 0 0 16px;
-      max-width: 18ch;
+      font-size: clamp(2.1rem, 5vw, 3.35rem); line-height: 1.08;
+      letter-spacing: -0.04em; margin: 0 0 16px; max-width: 18ch;
     }
-    .lede {
-      font-size: 1.15rem;
-      color: var(--muted);
-      max-width: 42rem;
-      margin: 0 0 28px;
-    }
+    .lede { font-size: 1.15rem; color: var(--muted); max-width: 42rem; margin: 0 0 28px; }
     .cta-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
-    .fine {
-      font-size: 0.88rem;
-      color: var(--muted);
-      margin: 14px 0 0;
-    }
+    .fine { font-size: 0.88rem; color: var(--muted); margin: 14px 0 0; }
 
     .shot {
-      margin: 40px 0 0;
-      background: #1e1c18;
-      border-radius: 14px;
-      overflow: hidden;
-      box-shadow: var(--shadow);
-      border: 1px solid #2a2722;
-      min-height: 180px;
+      margin: 40px 0 0; background: #1e1c18; border-radius: 14px; overflow: hidden;
+      box-shadow: var(--shadow); border: 1px solid #2a2722; min-height: 180px;
     }
-    .shot img {
-      display: block;
-      width: 100%;
-      height: auto;
-      vertical-align: middle;
-    }
-    .shot-placeholder {
-      color: #c4bba8;
-      padding: 48px 24px;
-      font-family: var(--mono);
-      font-size: 0.85rem;
-    }
+    .shot img { display: block; width: 100%; height: auto; vertical-align: middle; }
+    .shot-placeholder { color: #c4bba8; padding: 48px 24px; font-family: var(--mono); font-size: 0.85rem; }
+    .shots2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .shots2 .shot { margin: 0; }
+    figcaption { font-size: 0.85rem; color: var(--muted); margin: 8px 2px 0; }
 
     section { padding: 28px 0; }
-    h2 {
-      font-size: 1.45rem;
-      letter-spacing: -0.03em;
-      margin: 0 0 8px;
-    }
+    h2 { font-size: 1.45rem; letter-spacing: -0.03em; margin: 0 0 8px; }
     .section-lead { color: var(--muted); margin: 0 0 22px; max-width: 40rem; }
 
-    .grid3, .grid2 {
-      display: grid;
-      gap: 14px;
-    }
+    .grid3, .grid2 { display: grid; gap: 14px; }
     .grid3 { grid-template-columns: repeat(3, 1fr); }
     .grid2 { grid-template-columns: repeat(2, 1fr); }
 
-    .card {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 18px 18px 16px;
-    }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px 18px 16px; }
     .card h3 { margin: 0 0 8px; font-size: 1.02rem; letter-spacing: -0.02em; }
     .card p { margin: 0; color: var(--muted); font-size: 0.95rem; }
-    .num {
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      color: var(--accent-ink);
-      display: block;
-      margin-bottom: 8px;
-    }
+    .num { font-family: var(--mono); font-size: 0.75rem; color: var(--accent-ink); display: block; margin-bottom: 8px; }
 
-    ul.actions {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-      padding: 0;
-      margin: 0;
-    }
+    ul.actions { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding: 0; margin: 0; }
     ul.actions li {
-      list-style: none;
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 14px 12px;
-      text-align: center;
-      font-weight: 600;
-      font-size: 0.92rem;
+      list-style: none; background: var(--card); border: 1px solid var(--line);
+      border-radius: 12px; padding: 14px 12px; text-align: center;
+      font-weight: 600; font-size: 0.92rem;
     }
-    ul.actions small {
-      display: block;
-      font-weight: 400;
-      color: var(--muted);
-      margin-top: 4px;
-    }
+    ul.actions small { display: block; font-weight: 400; color: var(--muted); margin-top: 4px; }
 
-    .split {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-    }
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     .yes { border-top: 3px solid var(--ok); }
     .no { border-top: 3px solid #9a3412; }
     .split ul { margin: 10px 0 0; padding-left: 1.1rem; color: var(--muted); }
     .split li { margin: 6px 0; }
 
     details {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 12px 16px;
-      margin: 0 0 10px;
+      background: var(--card); border: 1px solid var(--line);
+      border-radius: 12px; padding: 12px 16px; margin: 0 0 10px;
     }
     summary { cursor: pointer; font-weight: 650; }
     details p { margin: 10px 0 4px; color: var(--muted); }
 
-    footer {
-      border-top: 1px solid var(--line);
-      padding: 28px 0 48px;
-      color: var(--muted);
-      font-size: 0.9rem;
-    }
-    footer .row {
-      display: flex;
-      justify-content: space-between;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
+    footer { border-top: 1px solid var(--line); padding: 28px 0 48px; color: var(--muted); font-size: 0.9rem; }
+    footer .row { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
 
     @media (max-width: 800px) {
-      .grid3, .grid2, .split, ul.actions { grid-template-columns: 1fr; }
+      .grid3, .grid2, .split, ul.actions, .shots2 { grid-template-columns: 1fr; }
       nav .hide-sm { display: none; }
       h1 { max-width: none; }
       .shot { margin-top: 28px; }
@@ -264,102 +165,160 @@
   </style>
 </head>
 <body>
+  <!-- PLACEHOLDER: replace BUY_URL everywhere with the Polar checkout link. -->
   <div class="wrap">
     <header>
       <a class="brand" href="#top">
         <span class="mark" aria-hidden="true">
           <img src="dcshop-256.png" alt="" width="40" height="40" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'mark-fallback',textContent:'DC'}))">
         </span>
-        DCShop
+        DCShop <span class="badge">2.0</span>
       </a>
       <nav>
         <a class="hide-sm" href="#how">How it works</a>
+        <a class="hide-sm" href="#new">What's new</a>
         <a class="hide-sm" href="#limits">Limits</a>
         <a class="hide-sm" href="#faq">FAQ</a>
-        <a class="btn" href="https://esimplesoftware.lemonsqueezy.com/buy/dcshop">Buy</a>
+        <a class="btn" href="BUY_URL">Buy</a>
       </nav>
     </header>
 
     <main id="top">
       <section class="hero">
-        <p class="kicker">Windows shop planner</p>
-        <h1>Draw the shop. Check the pipe before you buy it.</h1>
+        <p class="kicker">Windows dust collection planner · Version 2.0</p>
+        <h1>Plan your dust collection before you buy the pipe.</h1>
         <p class="lede">
-          DCShop is a desktop planner for a small woodshop dust-collection system.
-          Lay the main and one branch per machine, then ask two separate questions:
-          is the air fast enough to carry chips, and can this collector pull that air through this pipe?
+          DCShop lets you lay out your shop's dust collection system on a floor plan, from the collector
+          through the main, wyes and drops to each Tool, and checks that every Tool gets enough airflow.
+          It adds up every pipe, fitting and hose between the Tool and the collector and finds where that
+          resistance meets your collector's fan curve.
         </p>
         <div class="cta-row">
-          <a class="btn btn-lg" href="https://esimplesoftware.lemonsqueezy.com/buy/dcshop">Buy DCShop for Windows</a>
+          <a class="btn btn-lg" href="BUY_URL">Buy DCShop 2.0 for Windows</a>
           <a class="btn btn-ghost btn-lg" href="https://github.com/esimplesoftware/dcshop">GitHub</a>
         </div>
-        <p class="fine">Paid license. Checkout, installer, and key come from Lemon Squeezy. DCShop needs internet to check the license.</p>
+        <p class="fine">Paid license for Windows 10 and 11 (64-bit). Checkout and license key come from Polar. DCShop needs internet to activate and periodically check the license.</p>
 
         <figure class="shot">
+          <!-- PLACEHOLDER: 2.0 screenshot of a finished shop with the Analysis panel showing. -->
           <img
-            src="DCShop.png"
-            alt="DCShop shop layout with collector, main, and machine branches"
+            src="DCShop-2.png"
+            alt="DCShop 2.0 plan with collector, main, branches and drops, and the Analysis panel on the right"
             width="1600"
             height="900"
-            onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'shot-placeholder',textContent:'Add docs/DCShop.png — a screenshot of the shop layout.'}))">
+            onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'shot-placeholder',textContent:'Add DCShop-2.png: a finished shop with the Analysis panel showing.'}))">
         </figure>
-        <p class="fine">The drawing is the layout. The analysis is a full page — open the <a href="DcShop-Sample-Report.html" target="_blank" rel="noopener">sample report</a> in the browser.</p>
+        <p class="fine">The finished product is an HTML report you can print or email. Open the <a href="DcShop-Sample-Report.html" target="_blank" rel="noopener">sample report</a> in your browser.</p>
       </section>
 
       <section id="how">
         <h2>How it works</h2>
-        <p class="section-lead">Most layouts are guessed from a chart. DCShop makes the layout visible and checks it before the pipe is bought.</p>
+        <p class="section-lead">Most layouts are guessed from a chart. DCShop draws the layout to scale and calculates from what you drew.</p>
         <div class="grid3">
           <article class="card">
             <span class="num">01</span>
-            <h3>Draw what you can build</h3>
-            <p>Room, collector, main in 90° and 45° sticks, one branch per machine with a gate and flex. Illegal fittings are refused.</p>
+            <h3>Draw the shop</h3>
+            <p>Set the room's walls, ceiling and main height. Drag Tools and your collector from their catalogs onto the floor.</p>
           </article>
           <article class="card">
             <span class="num">02</span>
-            <h3>Colors are only velocity</h3>
-            <p>Green, yellow, and red answer whether chips will stay in the airstream. They do not grade the collector.</p>
+            <h3>Run the duct</h3>
+            <p>Snap pipe, elbows, wyes, reducers and blast gates together. Make drops down to each Tool automatically, finished with flex. Fittings that won't fit together are refused.</p>
           </article>
           <article class="card">
             <span class="num">03</span>
-            <h3>The report grades the collector</h3>
-            <p>CFM, FPM, static pressure, equivalent feet, plus fixed cyclone and filter losses, compared to a collector class.</p>
+            <h3>Run the analysis</h3>
+            <p>See the airflow (CFM), air speed (FPM) and static pressure at every Tool, with a fan chart and an air speed chart for each path.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="new">
+        <h2>What's new in 2.0</h2>
+        <p class="section-lead">2.0 is a rebuild. Version 1.0 shop files do not open in 2.0. See the FAQ.</p>
+        <div class="grid2">
+          <article class="card">
+            <h3>Drops and flex, built for you</h3>
+            <p>Turn a fitting down and DCShop plans the drop to the Tool's port. Fine-tune it in Drop view. Flex length and fit are checked.</p>
+          </article>
+          <article class="card">
+            <h3>Tool and collector catalogs</h3>
+            <p>Save your own Tool and collector designs once, with footprint, port size and height, and reuse them in every shop. Trace a collector's fan curve from the maker's chart.</p>
+          </article>
+          <article class="card">
+            <h3>Analysis panel</h3>
+            <p>Pick a Tool's path and see the legend, fan chart, air speed chart and report text right beside the plan.</p>
+          </article>
+          <article class="card">
+            <h3>A full HTML report</h3>
+            <p>A picture of the shop, a summary for each Tool, the charts, the full calculation and a parts list, ready to print or email.</p>
+          </article>
+          <article class="card">
+            <h3>Handles big shops</h3>
+            <p>Tested on shops with 100 Tools and 700 parts. Analysis stays quick.</p>
+          </article>
+          <article class="card">
+            <h3>Everyday comforts</h3>
+            <p>Undo, recent shops on the File menu, open ends flagged in red, and a complete built-in manual with a tutorial.</p>
           </article>
         </div>
       </section>
 
       <section>
+        <h2>See it</h2>
+        <p class="section-lead">Screenshots from 2.0.</p>
+        <div class="shots2">
+          <figure>
+            <div class="shot">
+              <!-- PLACEHOLDER: Drop view screenshot -->
+              <img src="DCShop-drop-view.png" alt="Drop view of a drop to a Tool" width="800" height="500"
+                onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'shot-placeholder',textContent:'Add DCShop-drop-view.png'}))">
+            </div>
+            <figcaption>Drop view: the drop and flex from a fitting to a Tool.</figcaption>
+          </figure>
+          <figure>
+            <div class="shot">
+              <!-- PLACEHOLDER: fan chart / Analysis panel screenshot -->
+              <img src="DCShop-fan-chart.png" alt="Fan chart in the Analysis panel" width="800" height="500"
+                onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'shot-placeholder',textContent:'Add DCShop-fan-chart.png'}))">
+            </div>
+            <figcaption>Fan chart: where the path's resistance meets the collector's curve.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section>
         <h2>On the floor</h2>
-        <p class="section-lead">One pipe size is not treated as the answer for every machine. Stepping the main down is part of the plan.</p>
+        <p class="section-lead">A single pipe size isn't the right answer for every Tool. Stepping the main down is part of the plan.</p>
         <ul class="actions">
-          <li>Main + wyes<small>legal sticks only</small></li>
-          <li>Branch + flex<small>measured, not guessed</small></li>
-          <li>Size recommend<small>apply and run again</small></li>
-          <li>Printable page<small>floor plus report</small></li>
+          <li>Main + wyes<small>snapped to size</small></li>
+          <li>Drops + flex<small>planned to the port</small></li>
+          <li>Every Tool checked<small>CFM, FPM, static pressure</small></li>
+          <li>HTML report<small>charts plus parts list</small></li>
         </ul>
       </section>
 
       <section id="limits">
         <h2>What it does and does not do</h2>
-        <p class="section-lead">1.0 plans one open machine at a time from the pipe you drew. That is the whole product.</p>
+        <p class="section-lead">DCShop plans with the pipe you drew, one open Tool at a time. The limits are intentional.</p>
         <div class="split">
           <article class="card yes">
             <h3>Does</h3>
             <ul>
-              <li>Use the drawn length, elbows, and flex</li>
-              <li>Keep transport velocity and collector capacity separate</li>
-              <li>Show derated planning curves and a published manufacturer curve as different things</li>
-              <li>Refuse a change that cannot be built</li>
-              <li>Export a full-floor page that zoom does not clip</li>
+              <li>Use the drawn lengths, fittings and flex</li>
+              <li>Keep air speed (will chips stay moving?) separate from collector capacity (can it pull that air?)</li>
+              <li>Let you enter your own measured fan curve</li>
+              <li>Refuse a part that can't be built or would leave the room</li>
+              <li>Flag every open end before the analysis</li>
             </ul>
           </article>
           <article class="card no">
             <h3>Does not</h3>
             <ul>
               <li>Invent lengths you did not draw</li>
-              <li>Treat green as “this collector is enough”</li>
-              <li>Stamp an engineered or NFPA design</li>
-              <li>Analyze every blast gate open at once</li>
+              <li>Analyze several blast gates open at once</li>
+              <li>Model duct leaks or dirty filters, so leave some margin</li>
+              <li>Replace an engineered or NFPA design</li>
               <li>Upload your shop file (it stays on your PC)</li>
             </ul>
           </article>
@@ -368,41 +327,47 @@
 
       <section id="faq">
         <h2>Questions</h2>
-        <p class="section-lead">Short answers. The limits are intentional.</p>
+        <p class="section-lead">Short answers.</p>
 
         <details open>
-          <summary>Is this a replacement for a manufacturer’s design service?</summary>
-          <p>No. A dealer design is a parts list tied to a purchase. DCShop is the drawing you run before you order pipe from anyone. Use both if you want.</p>
+          <summary>Is this a replacement for a manufacturer's design service?</summary>
+          <p>No. A dealer design is a parts list tied to a purchase. DCShop is the plan you check before you order pipe from anyone. Use both if you want.</p>
         </details>
         <details>
-          <summary>Why are the length boxes read-only?</summary>
-          <p>Because the analysis uses the pipe on the floor. If the number could be typed, the drawing would stop being the calculation.</p>
+          <summary>Can I run two Tools at once?</summary>
+          <p>DCShop analyzes one open Tool at a time with the other gates closed. That is how most one-person shops run blast gates.</p>
         </details>
         <details>
-          <summary>Can I run two machines at once?</summary>
-          <p>1.0 analyzes one open machine. That is how most one-person shops actually run blast gates.</p>
+          <summary>How accurate are the collector curves?</summary>
+          <p>Curves in the Collector catalog are estimates unless you enter your own. You can trace a curve from the maker's published chart or type in measured points.</p>
         </details>
         <details>
-          <summary>Is a planning curve the same as a published fan curve?</summary>
-          <p>No. DCShop will not present a derated planning curve as if it were a manufacturer’s published curve.</p>
+          <summary>I have 1.0. Do my shops open in 2.0?</summary>
+          <!-- PLACEHOLDER: confirm upgrade pricing and 1.0 file compatibility before publishing. -->
+          <p>No. 2.0 uses a new shop file format. Redraw the shop in 2.0. Your 1.0 license does not activate 2.0.</p>
         </details>
         <details>
           <summary>How do I buy it?</summary>
-          <p>Buy on Lemon Squeezy. They take payment, email the Windows installer, and email the license key. In DCShop open Help → License and paste the key. The app checks that key online, so this PC needs internet when you activate and when the license is validated.</p>
+          <p>Buy through Polar. You get a license key and download link by email. Install DCShop, open Help → License, paste the key and click Activate. One key activates one PC.</p>
+        </details>
+        <details>
+          <summary>Can I move it to another PC?</summary>
+          <p>Yes. Open Help → License on the old PC and deactivate, then activate on the new one. Uninstalling DCShop also releases the key.</p>
         </details>
         <details>
           <summary>Does it work with no internet?</summary>
-          <p>Drawing does not need the network. Activating a key and checking the license does. Analyze stays locked until the key validates.</p>
+          <p>Activation needs the internet. After that, DCShop re-checks the license now and then and keeps working through short outages. Save, Open and Run analysis are locked until a key is active.</p>
         </details>
       </section>
 
       <section>
         <h2>Get it</h2>
-        <p class="section-lead">Pay on Lemon Squeezy. The receipt has the installer and the license key. If SmartScreen is cautious with a new unsigned build, that is Windows being Windows—More info → Run anyway.</p>
+        <p class="section-lead">Pay through Polar. The email has the installer and your license key. If SmartScreen warns about a new download, choose More info → Run anyway.</p>
         <div class="cta-row">
-          <a class="btn btn-lg" href="https://esimplesoftware.lemonsqueezy.com/buy/dcshop">Buy on Lemon Squeezy</a>
+          <a class="btn btn-lg" href="BUY_URL">Buy DCShop 2.0</a>
           <a class="btn btn-ghost btn-lg" href="DcShop-Sample-Report.html" target="_blank" rel="noopener">Sample report</a>
-          <a class="btn btn-ghost btn-lg" href="https://github.com/esimplesoftware/dcshop/blob/Master/Manual.md">Read the manual</a>
+          <!-- PLACEHOLDER: link to the published 2.0 manual -->
+          <a class="btn btn-ghost btn-lg" href="MANUAL_URL">Read the manual</a>
         </div>
       </section>
     </main>
@@ -410,13 +375,13 @@
     <footer>
       <div class="row">
         <div>
-          <strong style="color:var(--ink)">DCShop</strong><br>
+          <strong style="color:var(--ink)">DCShop 2.0</strong><br>
           eSimpleSoftware · Jackson, Tennessee<br>
           <a href="mailto:esimplesoftware@gmail.com">esimplesoftware@gmail.com</a>
         </div>
         <div>
           <a href="https://github.com/esimplesoftware/dcshop">Repository</a> ·
-          <a href="https://esimplesoftware.lemonsqueezy.com/buy/dcshop">Buy</a> ·
+          <a href="BUY_URL">Buy</a> ·
           <a href="https://github.com/esimplesoftware/dcshop/blob/Master/EULA.txt">EULA</a>
         </div>
       </div>
