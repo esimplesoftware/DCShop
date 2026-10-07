@@ -29,22 +29,34 @@
       --sans: "Segoe UI", "Sora", system-ui, sans-serif;
     }
 
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
       font-family: var(--sans);
       color: var(--ink);
-      background:
-        radial-gradient(1200px 500px at 10% -10%, #fde8c8 0%, transparent 55%),
-        var(--bg);
+      background: radial-gradient(1200px 500px at 10% -10%, #fde8c8 0%, transparent 55%), var(--bg);
       line-height: 1.55;
     }
 
-    a { color: var(--accent-ink); }
-    a:hover { color: var(--accent); }
+    a {
+      color: var(--accent-ink);
+    }
 
-    .wrap { width: min(980px, calc(100% - 40px)); margin: 0 auto; }
+      a:hover {
+        color: var(--accent);
+      }
+
+    .wrap {
+      width: min(980px, calc(100% - 40px));
+      margin: 0 auto;
+    }
 
     header {
       display: flex;
@@ -63,14 +75,35 @@
       letter-spacing: -0.03em;
       font-size: 1.15rem;
     }
-    .mark { width: 40px; height: 40px; display: grid; place-items: center; flex-shrink: 0; }
-    .mark img { width: 40px; height: 40px; display: block; border-radius: 8px; }
-    .mark-fallback {
-      width: 40px; height: 40px; border-radius: 8px;
-      background: var(--ink); color: #f8f1e5;
-      display: grid; place-items: center;
-      font-size: 0.72rem; font-weight: 700; letter-spacing: -0.04em;
+
+    .mark {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
     }
+
+      .mark img {
+        width: 40px;
+        height: 40px;
+        display: block;
+        border-radius: 8px;
+      }
+
+    .mark-fallback {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      background: var(--ink);
+      color: #f8f1e5;
+      display: grid;
+      place-items: center;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+    }
+
     .badge {
       font-family: var(--mono);
       font-size: 0.7rem;
@@ -81,86 +114,299 @@
       padding: 1px 6px;
     }
 
-    nav { display: flex; gap: 18px; align-items: center; font-size: 0.95rem; }
-    nav a { text-decoration: none; color: var(--muted); }
-    nav a:hover { color: var(--ink); }
+    nav {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      font-size: 0.95rem;
+    }
+
+      nav a {
+        text-decoration: none;
+        color: var(--muted);
+      }
+
+        nav a:hover {
+          color: var(--ink);
+        }
 
     .btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: var(--ink); color: #f8f1e5 !important;
-      text-decoration: none; padding: 10px 16px; border-radius: 10px;
-      font-weight: 600; border: 1px solid var(--ink);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--ink);
+      color: #f8f1e5 !important;
+      text-decoration: none;
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-weight: 600;
+      border: 1px solid var(--ink);
     }
-    .btn:hover { background: #2c2822; color: #fff !important; }
-    .btn-ghost { background: transparent; color: var(--ink) !important; border-color: var(--line); }
-    .btn-ghost:hover { background: var(--bg-2); color: var(--ink) !important; }
-    .btn-lg { padding: 13px 20px; font-size: 1.02rem; }
 
-    .hero { padding: 48px 0 28px; }
+      .btn:hover {
+        background: #2c2822;
+        color: #fff !important;
+      }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--ink) !important;
+      border-color: var(--line);
+    }
+
+      .btn-ghost:hover {
+        background: var(--bg-2);
+        color: var(--ink) !important;
+      }
+
+    .btn-lg {
+      padding: 13px 20px;
+      font-size: 1.02rem;
+    }
+
+    .hero {
+      padding: 48px 0 28px;
+    }
+
     .kicker {
-      font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.08em;
-      text-transform: uppercase; color: var(--accent-ink); margin: 0 0 14px;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-ink);
+      margin: 0 0 14px;
     }
+
     h1 {
-      font-size: clamp(2.1rem, 5vw, 3.35rem); line-height: 1.08;
-      letter-spacing: -0.04em; margin: 0 0 16px; max-width: 18ch;
+      font-size: clamp(2.1rem, 5vw, 3.35rem);
+      line-height: 1.08;
+      letter-spacing: -0.04em;
+      margin: 0 0 16px;
+      max-width: 18ch;
     }
-    .lede { font-size: 1.15rem; color: var(--muted); max-width: 42rem; margin: 0 0 28px; }
-    .cta-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
-    .fine { font-size: 0.88rem; color: var(--muted); margin: 14px 0 0; }
+
+    .lede {
+      font-size: 1.15rem;
+      color: var(--muted);
+      max-width: 42rem;
+      margin: 0 0 28px;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .fine {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin: 14px 0 0;
+    }
 
     .shot {
-      margin: 40px 0 0; background: #1e1c18; border-radius: 14px; overflow: hidden;
-      box-shadow: var(--shadow); border: 1px solid #2a2722; min-height: 180px;
+      margin: 40px 0 0;
+      background: #1e1c18;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      border: 1px solid #2a2722;
+      min-height: 180px;
     }
-    .shot img { display: block; width: 100%; height: auto; vertical-align: middle; }
-    .shot-placeholder { color: #c4bba8; padding: 48px 24px; font-family: var(--mono); font-size: 0.85rem; }
-    .shots2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    .shots2 .shot { margin: 0; }
-    figcaption { font-size: 0.85rem; color: var(--muted); margin: 8px 2px 0; }
 
-    section { padding: 28px 0; }
-    h2 { font-size: 1.45rem; letter-spacing: -0.03em; margin: 0 0 8px; }
-    .section-lead { color: var(--muted); margin: 0 0 22px; max-width: 40rem; }
+      .shot img {
+        display: block;
+        width: 100%;
+        height: auto;
+        vertical-align: middle;
+      }
 
-    .grid3, .grid2 { display: grid; gap: 14px; }
-    .grid3 { grid-template-columns: repeat(3, 1fr); }
-    .grid2 { grid-template-columns: repeat(2, 1fr); }
-
-    .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px 18px 16px; }
-    .card h3 { margin: 0 0 8px; font-size: 1.02rem; letter-spacing: -0.02em; }
-    .card p { margin: 0; color: var(--muted); font-size: 0.95rem; }
-    .num { font-family: var(--mono); font-size: 0.75rem; color: var(--accent-ink); display: block; margin-bottom: 8px; }
-
-    ul.actions { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding: 0; margin: 0; }
-    ul.actions li {
-      list-style: none; background: var(--card); border: 1px solid var(--line);
-      border-radius: 12px; padding: 14px 12px; text-align: center;
-      font-weight: 600; font-size: 0.92rem;
+    .shot-placeholder {
+      color: #c4bba8;
+      padding: 48px 24px;
+      font-family: var(--mono);
+      font-size: 0.85rem;
     }
-    ul.actions small { display: block; font-weight: 400; color: var(--muted); margin-top: 4px; }
 
-    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    .yes { border-top: 3px solid var(--ok); }
-    .no { border-top: 3px solid #9a3412; }
-    .split ul { margin: 10px 0 0; padding-left: 1.1rem; color: var(--muted); }
-    .split li { margin: 6px 0; }
+    .shots2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+      .shots2 .shot {
+        margin: 0;
+        aspect-ratio: 16 / 10;
+        background: #fff;
+      }
+
+        .shots2 .shot img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+        }
+
+    figcaption {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin: 8px 2px 0;
+    }
+
+    section {
+      padding: 28px 0;
+    }
+
+    h2 {
+      font-size: 1.45rem;
+      letter-spacing: -0.03em;
+      margin: 0 0 8px;
+    }
+
+    .section-lead {
+      color: var(--muted);
+      margin: 0 0 22px;
+      max-width: 40rem;
+    }
+
+    .grid3, .grid2 {
+      display: grid;
+      gap: 14px;
+    }
+
+    .grid3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .grid2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 18px 18px 16px;
+    }
+
+      .card h3 {
+        margin: 0 0 8px;
+        font-size: 1.02rem;
+        letter-spacing: -0.02em;
+      }
+
+      .card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+    .num {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--accent-ink);
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    ul.actions {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      padding: 0;
+      margin: 0;
+    }
+
+      ul.actions li {
+        list-style: none;
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 14px 12px;
+        text-align: center;
+        font-weight: 600;
+        font-size: 0.92rem;
+      }
+
+      ul.actions small {
+        display: block;
+        font-weight: 400;
+        color: var(--muted);
+        margin-top: 4px;
+      }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .yes {
+      border-top: 3px solid var(--ok);
+    }
+
+    .no {
+      border-top: 3px solid #9a3412;
+    }
+
+    .split ul {
+      margin: 10px 0 0;
+      padding-left: 1.1rem;
+      color: var(--muted);
+    }
+
+    .split li {
+      margin: 6px 0;
+    }
 
     details {
-      background: var(--card); border: 1px solid var(--line);
-      border-radius: 12px; padding: 12px 16px; margin: 0 0 10px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 16px;
+      margin: 0 0 10px;
     }
-    summary { cursor: pointer; font-weight: 650; }
-    details p { margin: 10px 0 4px; color: var(--muted); }
 
-    footer { border-top: 1px solid var(--line); padding: 28px 0 48px; color: var(--muted); font-size: 0.9rem; }
-    footer .row { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    summary {
+      cursor: pointer;
+      font-weight: 650;
+    }
+
+    details p {
+      margin: 10px 0 4px;
+      color: var(--muted);
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 28px 0 48px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+      footer .row {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
 
     @media (max-width: 800px) {
-      .grid3, .grid2, .split, ul.actions, .shots2 { grid-template-columns: 1fr; }
-      nav .hide-sm { display: none; }
-      h1 { max-width: none; }
-      .shot { margin-top: 28px; }
+      .grid3, .grid2, .split, ul.actions, .shots2 {
+        grid-template-columns: 1fr;
+      }
+
+      nav .hide-sm {
+        display: none;
+      }
+
+      h1 {
+        max-width: none;
+      }
+
+      .shot {
+        margin-top: 28px;
+      }
     }
   </style>
 </head>
@@ -206,12 +452,11 @@
 
         <figure class="shot">
           <!-- PLACEHOLDER: 2.0 screenshot of a finished shop with the Analysis panel showing. -->
-          <img
-            src="DCShop-2.png"
-            alt="DCShop 2.0 plan with collector, main, branches and drops, and the Analysis panel on the right"
-            width="1600"
-            height="900"
-            onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'shot-placeholder',textContent:'Add DCShop-2.png: a finished shop with the Analysis panel showing.'}))">
+          <img src="DCShop-2.png"
+               alt="DCShop 2.0 plan with collector, main, branches and drops, and the Analysis panel on the right"
+               width="1600"
+               height="900"
+               onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'shot-placeholder',textContent:'Add DCShop-2.png: a finished shop with the Analysis panel showing.'}))">
         </figure>
         <p class="fine">The finished product is an HTML report you can print or email. Open the <a href="DcShop-Sample-Report.html" target="_blank" rel="noopener">sample report</a> in your browser.</p>
       </section>
@@ -277,7 +522,7 @@
             <div class="shot">
               <!-- PLACEHOLDER: Drop view screenshot -->
               <img src="DCShop-drop-view.png" alt="Drop view of a drop to a Tool" width="800" height="500"
-                onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'shot-placeholder',textContent:'Add DCShop-drop-view.png'}))">
+                   onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'shot-placeholder',textContent:'Add DCShop-drop-view.png'}))">
             </div>
             <figcaption>Drop view: the drop and flex from a fitting to a Tool.</figcaption>
           </figure>
@@ -285,7 +530,7 @@
             <div class="shot">
               <!-- PLACEHOLDER: fan chart / Analysis panel screenshot -->
               <img src="DCShop-fan-chart.png" alt="Fan chart in the Analysis panel" width="800" height="500"
-                onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'shot-placeholder',textContent:'Add DCShop-fan-chart.png'}))">
+                   onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'shot-placeholder',textContent:'Add DCShop-fan-chart.png'}))">
             </div>
             <figcaption>Fan chart: where the path's resistance meets the collector's curve.</figcaption>
           </figure>
